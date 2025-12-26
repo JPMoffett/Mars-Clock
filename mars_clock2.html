@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mars Clock</title>
+<style>
+  html, body {
+    background: #050800;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Courier New", monospace;
+    color: #FFB000; /* Amber phosphor */
+  }
+
+  /* CRT scanlines */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 1px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,0) 4px
+      );
+    pointer-events: none;
+  }
+
+  /* CRT vignette */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0,0,0,0) 40%,
+      rgba(0,0,0,0.35) 100%
+    );
+    pointer-events: none;
+  }
+
+  .panel {
+    text-align: center;
+    padding: 2rem 3rem;
+    border: 2px solid rgba(255,176,0,0.4);
+    box-shadow:
+      0 0 20px rgba(255,176,0,0.4),
+      inset 0 0 20px rgba(255,176,0,0.2);
+    transition: transform 0.05s;
+  }
+
+  .header {
+    font-size: 1.1rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+    opacity: 0.85;
+  }
+
+  .time {
+    font-size: 5rem;
+    letter-spacing: 0.15em;
+    text-shadow:
+      0 0 6px rgba(255,176,0,0.8),
+      0 0 18px rgba(255,176,0,0.6);
+  }
+
+  .sol {
+    margin-top: 1.2rem;
+    font-size: 1.6rem;
+    letter-spacing: 0.2em;
+    opacity: 0.9;
+  }
+
+  .label {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="panel" id="panel">
+  <div class="header">CURRENT TIME ON MARS</div>
+
+  <div class="time" id="mtc">--:--:--</div>
+
+  <div class="sol" id="sol">SOL ----</div>
+
+  <div class="label">MARS COORDINATED TIME (MTC)</div>
+</div>
+
+<!-- Very faint 60Hz hum -->
+<audio id="hum" loop autoplay>
+  <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+function updateMarsTime() {
+  const now = new Date();
+
+  // Julian Date from Unix time
+  const jd = (now.getTime() / 86400000) + 2440587.5;
+
+  // Mars Sol Date
+  const msd = (jd - 2405522.0028779) / 1.0274912517;
+
+  // SOL number
+  const sol = Math.floor(msd);
+
+  // Mars Coordinated Time (hours)
+  const mtc = (msd % 1) * 24;
+
+  const hours = Math.floor(mtc);
+  const minutes = Math.floor((mtc - hours) * 60);
+  const seconds = Math.floor((((mtc - hours) * 60) - minutes) * 60);
+
+  document.getElementById("mtc").textContent =
+    String(hours).padStart(2, "0") + ":" +
+    String(minutes).padStart(2, "0") + ":" +
+    String(seconds).padStart(2, "0");
+
+  document.getElementById("sol").textContent = "SOL " + sol;
+}
+
+
+
+// Run updates
+setInterval(updateMarsTime, 1000);
+setInterval(jitter, 250); // slight jitter every 0.25s
+updateMarsTime();
+
+// Play faint hum
+const audio = document.getElementById("hum");
+audio.volume = 0.1; // very faint
+audio.play().catch(e => console.log("Audio auto-play blocked"));
+</script>
+
+</body>
+</html>
