@@ -11,3 +11,5 @@ Runs entirely in the browser.
 - SOL counter: The displayed SOL number is the integer part of MSD, essentially counting how many sols have passed since a fixed reference date.
 
 So every second of the Mars clock corresponds to about 1.0275 Earth seconds, keeping it synchronized with actual Martian time.
+
+Open marsclock.png to see what it looks like. 
