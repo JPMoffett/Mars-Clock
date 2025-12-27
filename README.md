@@ -13,3 +13,5 @@ Runs entirely in the browser.
 So every second of the Mars clock corresponds to about 1.0275 Earth seconds, keeping it synchronized with actual Martian time.
 
 Open marsclock.png to see what it looks like. 
+
+Works best in Firefox browser. 
