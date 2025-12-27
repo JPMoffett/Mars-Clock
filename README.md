@@ -1,5 +1,5 @@
 A browser-based Mars clock showing the current SOL and Mars Coordinated Time (MTC) 
-in a retro 1970s NASA console style, complete with amber phosphor glow, CRT scanlines, and optional faint hum. 
+in a retro 1970s NASA console style, complete with amber phosphor glow, and CRT scanlines.  
 Runs entirely in the browser.
 
 - Mars Sol Date (MSD): The clock calculates the current sol (Martian day) from UTC. This is the standard used by NASA and JPL for missions on Mars.
