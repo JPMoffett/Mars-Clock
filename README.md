@@ -14,4 +14,4 @@ So every second of the Mars clock corresponds to about 1.0275 Earth seconds, kee
 
 Open marsclock.png to see what it looks like. 
 
-Works best in Firefox browser. 
+To run it, open the html folder, download the raw file, then right click Run In Browser. 
